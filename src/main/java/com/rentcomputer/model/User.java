@@ -1,0 +1,37 @@
+package com.rentcomputer.model;
+
+/*
+ * @Author hzj
+ * @ClassName User
+ * @Description //TODO 
+ * @Date 17:15 2019/1/14
+ * @Param 
+ * @return 
+ **/
+
+import java.io.Serializable;
+
+public class User implements Serializable{
+
+    private static final long serialVersionUID = 288290684315802373L;
+
+    private Integer id;
+
+    private String userName;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+}
