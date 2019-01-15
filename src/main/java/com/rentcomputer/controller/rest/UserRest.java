@@ -1,29 +1,29 @@
 package com.rentcomputer.controller.rest;
 
-/*
- * @Author hzj
- * @ClassName UserRest
- * @Description 用户接口类
- * @Date 16:58 2019/1/14
- * @Param 
- * @return 
- **/
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.rentcomputer.model.Pagination;
+import com.rentcomputer.model.Param;
 import com.rentcomputer.model.Result;
 import com.rentcomputer.service.UserService;
 import com.rentcomputer.utils.Utils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * @Author hzj
+ * @ClassName UserRest
+ * @Description 用户接口类
+ * @Date 16:58 2019/1/14
+ * @Param
+ * @return
+ **/
 @RequestMapping("ws/user")
 @RestController
 public class UserRest {
@@ -45,18 +45,19 @@ public class UserRest {
     public Result getUserList(HttpServletRequest request) {
         Result r = new Result(Result.RESULT_FAILURE, "系统繁忙!");
         try {
-
+            Param param = (Param) request.getAttribute("param");
+            JSONObject jobject = JSON.parseObject(param.getData().toString());
             String userName = null;
-            if (!Utils.Str.isEmpty(request.getParameter("userName"))) {
-                userName = request.getParameter("userName");
+            if (!Utils.Str.isEmpty(jobject.getString("userName"))) {
+                userName = jobject.getString("userName");
             }
             Integer pageNo = 1;
             Integer pageSize = 10;
-            if (!Utils.Str.isEmpty(request.getParameter("pageNo"))) {
-                pageNo = Integer.parseInt(request.getParameter("pageNo"));
+            if (!Utils.Str.isEmpty(jobject.getString("pageNo"))) {
+                pageNo = jobject.getInteger("pageNo");
             }
-            if (!Utils.Str.isEmpty(request.getParameter("pageSize"))) {
-                pageSize = Integer.parseInt(request.getParameter("pageSize"));
+            if (!Utils.Str.isEmpty(jobject.getString("pageSize"))) {
+                pageSize = jobject.getInteger("pageSize");
             }
             Pagination pagination = new Pagination();
             pagination.setPage(pageNo);
