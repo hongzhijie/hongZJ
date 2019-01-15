@@ -1,0 +1,163 @@
+#rentcomputer V1.0
+rentcomputer基于SpringBoot开发,完美整合springmvc + shiro + mysql + mybatis-plus + rabbitMQ + log4j + Cache + druid!
+
+在不用写xml配置(V1.0)的基础上进一步简化项目配置,让您更专注于业务开发!抛弃传统spring xml的配置方式,利用springboot + javabean方式配置spring,极大简化了pom.xml配置和spring配置.
+
+rentcomputer项目代码简洁,注释丰富,上手容易,同时rentcomputer可拓展许多基础模块(如用户管理,角色管理,部门管理,字典管理等10个模块),可以直接作为一个后台管理系统的脚手架.
+
+## 鸣谢
+1.[git](https://github.com)
+
+##技术讨论
+如果对项目有任何疑问或者建议,欢迎加入rentcomputer技术交流群:XXXXXXX
+
+## V1.0更新日志
+1. 集成线程池组件
+2. 添加cache缓存机制
+
+### 如果不喜欢SpringBoot?
+如果您不喜欢用SpringBoot,或者您是一个spring初学者,您可以熟悉spring-boot机制再进行了解
+rentcomputer V1.0基于spring-boot的java bean方式配置项目,同样简洁易上手.
+
+注:SpringBoot强大的Auto Config和统一的依赖管理极大的简化了spring配置和maven依赖,在不了解其都配置了哪些东西的基础上可能会对初学者有一定困扰,所以建议初学者先看rentcomputer V1.0
+
+##功能简介
+1. 用户管理
+2. 角色管理
+3. 部门管理
+4. 菜单管理
+5. 字典管理
+6. 业务日志
+7. 登录日志
+8. 监控管理
+9. 通知管理
+10. 代码生成
+
+##使用说明
+1. 导入sql/rentcomputer.sql文件到mysql数据库
+2. 以maven方式导入项目到idea
+3. 修改application.propertis中的数据库相关的配置,改为您本机的数据库配置
+3. 启动项目,管理员账号admin/密码admin
+
+###如何启动项目
+rentcomputer目前支持三种启动方式:
+1. 在IDE里运行RentcomputerApplication类中的main方法启动
+2. 执行如下maven命令
+```
+clean package -Dmaven.test.skip=true
+```
+并从target目录中找到rentcomputer-1.0.0-SNAPSHOT.jar,并在jar包的目录下执行如下java命令
+```
+java -jar rentcomputer-1.0.0-SNAPSHOT.jar
+```
+3. 修改pom.xml中如下片段
+```
+<packaging>jar</packaging>
+```
+改为
+```
+<packaging>war</packaging>
+```
+并打包放入到tomcat中执行
+
+
+##所用框架
+###前端
+1. Bootstrap v3.3.6
+2. jQuery v2.1.4
+3. bootstrap-table v1.9.0
+4. layer v2.1
+5. zTree core v3.5.28
+6. WebUploader 0.1.5
+
+###后端
+1. SpringBoot 1.5.3.RELEASE
+2. MyBatis-Plus 2.0.8
+3. MyBatis 3.4.4
+4. Spring 4.3.8.RELEASE
+5. RabbitMQ 2.1.1
+6. hibernate-validator 5.3.5.Final
+7. Cache 2.1.1
+8. Kaptcha 2.3.2
+9. Fastjson 1.2.31
+10. Shiro 1.4.0
+11. Druid 1.0.31
+
+##项目包结构说明
+```
+├─main
+│  │
+│  ├─java
+│  │   │
+│  │   ├─com.rentcomputer----------------项目主代码
+│  │   │          │
+│  │   │          ├─utils----------------项目公用的部分(业务中经常调用的类,例如常量,异常,实体,注解,分页类,节点类)
+│  │   │          │
+│  │   │          ├─config----------------项目配置代码(例如Druid配置,pool配置等)
+│  │   │          │
+│  │   │          ├─core----------------项目运行的核心依靠(例如aop日志记录,拦截器,监听器,guns模板引擎,shiro权限检查等)
+│  │   │          │
+│  │   │          ├─controller----------------项目业务代码
+│  │   │          │
+│  │   │          ├─RentcomputerApplication类----------------以main方法启动springboot的类
+│  │   │          │
+│  │   │          └─RentcomputerServletInitializer类----------------用servlet容器启动springboot的核心类
+│  │   │
+│  │   └─generator----------------mybatis-plus Entity生成器
+│  │
+│  ├─resources----------------项目资源文件
+│  │     │
+│  │     ├─rentcomputerTemplate----------------rentcomputer代码生成模板
+│  │     │
+│  │     ├─application.propertis----------------springboot项目配置
+│  │     │
+│  │     ├─ehcache.xml----------------ehcache缓存配置
+│  │
+│  └─webapp----------------web页面和静态资源存放的目录
+│
+```
+注:SpringBoot项目默认不支持将静态资源和模板(web页面)放到webapp目录,但是个人感觉resources目录只放项目的配置更加简洁,所以就将web页面继续放到webapp目录了.
+
+##项目特点
+1. 基于SpringBoot,简化了大量项目配置和maven依赖,让您更专注于业务开发,独特的分包方式,代码多而不乱。
+2. 完善的日志记录体系，可记录登录日志，业务操作日志(可记录操作前和操作后的数据)，异常日志到数据库，通过@BussinessLog注解和LogObjectHolder.me().set()方法，业务操作日志可具体记录哪个用户，执行了哪些业务，修改了哪些数据，并且日志记录为异步执行，详情请见@BussinessLog注解和LogObjectHolder,LogManager,LogAop类。
+3. 对常用js插件进行二次封装，使js代码变得简洁，更加易维护，具体请见webapp/static/js/common文件夹内js代码。
+4. 利用ehcache框架对经常调用的查询进行缓存，提升运行速度，具体请见ConstantFactory类中@Cacheable标记的方法。
+
+##基于javabean方式的spring配置
+rentcomputer以简洁为核心,抛弃了传统的易错,臃肿xml配置,采用javabean的方式配置spring,简化了项目的配置,如下示例为配置mybatis-plus和数据源:
+```
+@Configuration
+@MapperScan(basePackages = {"com.rentcomputer.model.*.dao", "com.rentcomputer.utils.persistence.dao"})
+public class MybatisPlusConfig {
+
+    @Autowired
+    DruidProperties druidProperties;
+
+    /**
+     * mybatis-plus分页插件
+     */
+    @Bean
+    public PaginationInterceptor paginationInterceptor() {
+        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+        paginationInterceptor.setDialectType(DBType.MYSQL.getDb());
+        return paginationInterceptor;
+    }
+
+    /**
+     * druid数据库连接池
+     */
+    @Bean(initMethod = "init")
+    public DruidDataSource dataSource() {
+        DruidDataSource dataSource = new DruidDataSource();
+        druidProperties.coinfig(dataSource);
+        return dataSource;
+    }
+}
+```
+
+##业务日志记录原理
+日志记录采用aop(LogAop类)方式对所有包含@BussinessLog注解的方法进行aop切入，会记录下当前用户执行了哪些操作（即@BussinessLog value属性的内容），如果涉及到数据修改，会取当前http请求的所有requestParameters与LogObjectHolder类中缓存的Object对象的所有字段作比较（所以在编辑之前的获取详情接口中需要缓存被修改对象之前的字段信息），日志内容会异步存入数据库中（通过ScheduledThreadPoolExecutor类）。
+
+
+##极简的图片上传方法
