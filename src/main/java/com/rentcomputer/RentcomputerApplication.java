@@ -2,6 +2,7 @@ package com.rentcomputer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /*
@@ -16,6 +17,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication
 //启用线程池
 @EnableAsync
+//启用缓存
+@EnableCaching
 public class RentcomputerApplication {
 
 	public static void main(String[] args) {
