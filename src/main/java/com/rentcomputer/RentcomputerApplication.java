@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RentcomputerApplication {
 
 	public static void main(String[] args) {
+        System.out.println("正在启动boot-------");
 		SpringApplication.run(RentcomputerApplication.class, args);
 	}
 
