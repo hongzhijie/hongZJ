@@ -30,6 +30,7 @@ public class UserRest {
     //日志
     private Logger logger = Logger.getLogger(UserRest.class);
 
+    //用户服务
     @Autowired
     private UserService userService;
 
