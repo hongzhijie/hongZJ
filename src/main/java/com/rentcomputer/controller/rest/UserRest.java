@@ -15,6 +15,7 @@ import com.rentcomputer.service.UserService;
 import com.rentcomputer.utils.Utils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,7 +63,8 @@ public class UserRest {
             pagination.setRows(pageSize);
             Map<String,Object> paramMap = new HashMap<>();
             paramMap.put("userName",userName);
-            Map<String,Object> returnMap = userService.getUserList(paramMap,pagination);
+            //.get()代表阻塞调用，.get(1, TimeUnit.SECONDS)代表限时调用
+            Map<String,Object> returnMap = userService.getUserList(paramMap,pagination).get();
             r.setTotal(((Long) returnMap.get("total")).intValue());
             r.setData(returnMap.get("rows"));
             r.setCode(Result.RESULT_SUCCESS);
