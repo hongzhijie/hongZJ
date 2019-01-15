@@ -2,6 +2,7 @@ package com.rentcomputer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /*
  * @Author hzj
@@ -13,6 +14,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  **/
 
 @SpringBootApplication
+//启用线程池
+@EnableAsync
 public class RentcomputerApplication {
 
 	public static void main(String[] args) {
