@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
  * @Param 
  * @return 
  **/
-
 @RestController
 public class Rest {
     @RequestMapping("/rentcomputer/ws/rest")
