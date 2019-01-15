@@ -1,2 +1,1 @@
-# hongZJ
-简单
+＃rentcomputer
