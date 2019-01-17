@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.concurrent.ListenableFuture;
 
 import java.util.HashMap;
@@ -37,6 +38,8 @@ public class UserService {
      **/
     //启用线程池线程
     @Async
+    //启用事务
+    @Transactional
     public ListenableFuture<Map<String,Object>> getUserList(Map<String,Object> paramMap, Pagination pagination){
         PageHelper.startPage(pagination.getPage(), pagination.getRows());
         Page<Map<String,Object>> membersPage = (Page<Map<String,Object>>) userMapper.getUserList(paramMap);
