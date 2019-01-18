@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.rentcomputer.dao.GoodsInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.rentcomputer.model.GoodsInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_unit" property="goodsUnit" jdbcType="TINYINT" />
+    <result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
+    <result column="goods_vip_price" property="goodsVipPrice" jdbcType="DECIMAL" />
+    <result column="is_discount" property="isDiscount" jdbcType="TINYINT" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="goods_img" property="goodsImg" jdbcType="VARCHAR" />
+    <result column="is_exemption_freight" property="isExemptionFreight" jdbcType="TINYINT" />
+    <result column="freight_price" property="freightPrice" jdbcType="DECIMAL" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="domain.GoodsInfo" extends="BaseResultMap" >
+    <result column="goods_details" property="goodsDetails" jdbcType="LONGVARCHAR" />
+    <result column="lease_details" property="leaseDetails" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goods_name, goods_unit, goods_price, goods_vip_price, is_discount, discount_price, 
+    goods_img, is_exemption_freight, freight_price, status
+  </sql>
+  <sql id="Blob_Column_List" >
+    goods_details, lease_details
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from goods_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from goods_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.rentcomputer.model.GoodsInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_info (id, goods_name, goods_unit, 
+      goods_price, goods_vip_price, is_discount, 
+      discount_price, goods_img, is_exemption_freight, 
+      freight_price, status, goods_details, 
+      lease_details)
+    values (#{id,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsUnit,jdbcType=TINYINT}, 
+      #{goodsPrice,jdbcType=DECIMAL}, #{goodsVipPrice,jdbcType=DECIMAL}, #{isDiscount,jdbcType=TINYINT}, 
+      #{discountPrice,jdbcType=DECIMAL}, #{goodsImg,jdbcType=VARCHAR}, #{isExemptionFreight,jdbcType=TINYINT}, 
+      #{freightPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{goodsDetails,jdbcType=LONGVARCHAR}, 
+      #{leaseDetails,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.rentcomputer.model.GoodsInfo" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into goods_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsUnit != null" >
+        goods_unit,
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price,
+      </if>
+      <if test="goodsVipPrice != null" >
+        goods_vip_price,
+      </if>
+      <if test="isDiscount != null" >
+        is_discount,
+      </if>
+      <if test="discountPrice != null" >
+        discount_price,
+      </if>
+      <if test="goodsImg != null" >
+        goods_img,
+      </if>
+      <if test="isExemptionFreight != null" >
+        is_exemption_freight,
+      </if>
+      <if test="freightPrice != null" >
+        freight_price,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="goodsDetails != null" >
+        goods_details,
+      </if>
+      <if test="leaseDetails != null" >
+        lease_details,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      #{id,jdbcType=INTEGER},
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnit != null" >
+        #{goodsUnit,jdbcType=TINYINT},
+      </if>
+      <if test="goodsPrice != null" >
+        #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsVipPrice != null" >
+        #{goodsVipPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDiscount != null" >
+        #{isDiscount,jdbcType=TINYINT},
+      </if>
+      <if test="discountPrice != null" >
+        #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsImg != null" >
+        #{goodsImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isExemptionFreight != null" >
+        #{isExemptionFreight,jdbcType=TINYINT},
+      </if>
+      <if test="freightPrice != null" >
+        #{freightPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="goodsDetails != null" >
+        #{goodsDetails,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="leaseDetails != null" >
+        #{leaseDetails,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.rentcomputer.model.GoodsInfo" >
+    update goods_info
+    <set >
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsUnit != null" >
+        goods_unit = #{goodsUnit,jdbcType=TINYINT},
+      </if>
+      <if test="goodsPrice != null" >
+        goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsVipPrice != null" >
+        goods_vip_price = #{goodsVipPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDiscount != null" >
+        is_discount = #{isDiscount,jdbcType=TINYINT},
+      </if>
+      <if test="discountPrice != null" >
+        discount_price = #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsImg != null" >
+        goods_img = #{goodsImg,jdbcType=VARCHAR},
+      </if>
+      <if test="isExemptionFreight != null" >
+        is_exemption_freight = #{isExemptionFreight,jdbcType=TINYINT},
+      </if>
+      <if test="freightPrice != null" >
+        freight_price = #{freightPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="goodsDetails != null" >
+        goods_details = #{goodsDetails,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="leaseDetails != null" >
+        lease_details = #{leaseDetails,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.rentcomputer.model.GoodsInfo" >
+    update goods_info
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_unit = #{goodsUnit,jdbcType=TINYINT},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      goods_vip_price = #{goodsVipPrice,jdbcType=DECIMAL},
+      is_discount = #{isDiscount,jdbcType=TINYINT},
+      discount_price = #{discountPrice,jdbcType=DECIMAL},
+      goods_img = #{goodsImg,jdbcType=VARCHAR},
+      is_exemption_freight = #{isExemptionFreight,jdbcType=TINYINT},
+      freight_price = #{freightPrice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT},
+      goods_details = #{goodsDetails,jdbcType=LONGVARCHAR},
+      lease_details = #{leaseDetails,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.rentcomputer.model.GoodsInfo" >
+    update goods_info
+    set goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_unit = #{goodsUnit,jdbcType=TINYINT},
+      goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      goods_vip_price = #{goodsVipPrice,jdbcType=DECIMAL},
+      is_discount = #{isDiscount,jdbcType=TINYINT},
+      discount_price = #{discountPrice,jdbcType=DECIMAL},
+      goods_img = #{goodsImg,jdbcType=VARCHAR},
+      is_exemption_freight = #{isExemptionFreight,jdbcType=TINYINT},
+      freight_price = #{freightPrice,jdbcType=DECIMAL},
+      status = #{status,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
