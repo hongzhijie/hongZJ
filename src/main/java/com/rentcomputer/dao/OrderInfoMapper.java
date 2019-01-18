@@ -2,6 +2,7 @@ package com.rentcomputer.dao;
 
 
 import com.rentcomputer.model.OrderInfo;
+import org.apache.ibatis.annotations.Mapper;
 
 /*
  * @Author hzj
@@ -11,7 +12,7 @@ import com.rentcomputer.model.OrderInfo;
  * @Param 
  * @return 
  **/
-
+@Mapper
 public interface OrderInfoMapper {
     int deleteByPrimaryKey(Integer id);
 

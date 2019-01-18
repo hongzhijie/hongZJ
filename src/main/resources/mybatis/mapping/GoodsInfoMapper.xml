@@ -13,23 +13,16 @@
     <result column="is_exemption_freight" property="isExemptionFreight" jdbcType="TINYINT" />
     <result column="freight_price" property="freightPrice" jdbcType="DECIMAL" />
     <result column="status" property="status" jdbcType="TINYINT" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="domain.GoodsInfo" extends="BaseResultMap" >
-    <result column="goods_details" property="goodsDetails" jdbcType="LONGVARCHAR" />
-    <result column="lease_details" property="leaseDetails" jdbcType="LONGVARCHAR" />
+      <result column="goods_details" property="goodsDetails" jdbcType="LONGVARCHAR" />
+      <result column="lease_details" property="leaseDetails" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, goods_name, goods_unit, goods_price, goods_vip_price, is_discount, discount_price, 
-    goods_img, is_exemption_freight, freight_price, status
+    goods_img, is_exemption_freight, freight_price, status,goods_details,lease_details
   </sql>
-  <sql id="Blob_Column_List" >
-    goods_details, lease_details
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from goods_info
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -41,15 +34,15 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="BEFORE" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into goods_info (id, goods_name, goods_unit, 
-      goods_price, goods_vip_price, is_discount, 
-      discount_price, goods_img, is_exemption_freight, 
-      freight_price, status, goods_details, 
+    insert into goods_info (id, goods_name, goods_unit,
+      goods_price, goods_vip_price, is_discount,
+      discount_price, goods_img, is_exemption_freight,
+      freight_price, status, goods_details,
       lease_details)
-    values (#{id,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsUnit,jdbcType=TINYINT}, 
-      #{goodsPrice,jdbcType=DECIMAL}, #{goodsVipPrice,jdbcType=DECIMAL}, #{isDiscount,jdbcType=TINYINT}, 
-      #{discountPrice,jdbcType=DECIMAL}, #{goodsImg,jdbcType=VARCHAR}, #{isExemptionFreight,jdbcType=TINYINT}, 
-      #{freightPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{goodsDetails,jdbcType=LONGVARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsUnit,jdbcType=TINYINT},
+      #{goodsPrice,jdbcType=DECIMAL}, #{goodsVipPrice,jdbcType=DECIMAL}, #{isDiscount,jdbcType=TINYINT},
+      #{discountPrice,jdbcType=DECIMAL}, #{goodsImg,jdbcType=VARCHAR}, #{isExemptionFreight,jdbcType=TINYINT},
+      #{freightPrice,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, #{goodsDetails,jdbcType=LONGVARCHAR},
       #{leaseDetails,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.rentcomputer.model.GoodsInfo" >
@@ -208,4 +201,52 @@
       status = #{status,jdbcType=TINYINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <!-- 多条件获取商品列表带分页 -->
+    <select id="selectGoodsInfoByParam" resultType="java.util.Map" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from goods_info
+        <where>
+            <if test="id != null" >
+                id = #{id,jdbcType=INTEGER},
+            </if>
+            <if test="goodsName != null" >
+                goods_name LIKE CONCAT('%','${goodsName}','%'),
+            </if>
+            <if test="goodsUnit != null" >
+                goods_unit = #{goodsUnit,jdbcType=TINYINT},
+            </if>
+            <if test="goodsPrice != null" >
+                goods_price = #{goodsPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsVipPrice != null" >
+                goods_vip_price = #{goodsVipPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="isDiscount != null" >
+                is_discount = #{isDiscount,jdbcType=TINYINT},
+            </if>
+            <if test="discountPrice != null" >
+                discount_price = #{discountPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="goodsImg != null" >
+                goods_img = #{goodsImg,jdbcType=VARCHAR},
+            </if>
+            <if test="isExemptionFreight != null" >
+                is_exemption_freight = #{isExemptionFreight,jdbcType=TINYINT},
+            </if>
+            <if test="freightPrice != null" >
+                freight_price = #{freightPrice,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="goodsDetails != null" >
+                goods_details = #{goodsDetails,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="leaseDetails != null" >
+                lease_details = #{leaseDetails,jdbcType=LONGVARCHAR},
+            </if>
+        </where>
+    </select>
 </mapper>
